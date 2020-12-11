@@ -13,11 +13,6 @@ $dotenv->load();
 // Atur jenis response
 header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  http_response_code(200);
-  exit();
-}
-
 // Cek method request
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
   http_response_code(405);
