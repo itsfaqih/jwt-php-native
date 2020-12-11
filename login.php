@@ -1,6 +1,7 @@
 <?php
 // Import script autoload agar bisa menggunakan library
-require_once('./vendor/autoload.php');
+require_once('vendor/autoload.php');
+require_once('./cors.php');
 // Import library
 use Firebase\JWT\JWT;
 use Dotenv\Dotenv;
@@ -39,6 +40,8 @@ header('Content-Type: application/json');
 // Jika email atau password tidak sesuai
 if ($input_user->email !== $user['email'] || $input_user->password !== $user['password']) {
   echo json_encode([
+    'success' => false,
+    'data' => null,
     'message' => 'Email atau password tidak sesuai'
   ]);
   exit();
@@ -59,8 +62,12 @@ $access_token = JWT::encode($payload, $_ENV['ACCESS_TOKEN_SECRET']);
 
 // Kirim kembali ke user
 echo json_encode([
-  'accessToken' => $access_token,
-  'expiry' => date(DATE_ISO8601, $waktu_kadaluarsa)
+  'success' => true,
+  'data' => [
+    'accessToken' => $access_token,
+    'expiry' => date(DATE_ISO8601, $waktu_kadaluarsa)
+  ],
+  'message' => 'Login berhasil!'
 ]);
 
 // Ubah waktu kadaluarsa lebih lama, dalam kasus ini 1 jam
