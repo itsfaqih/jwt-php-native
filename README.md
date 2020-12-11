@@ -16,7 +16,8 @@ cd jwt-php-native
 ```bash
 composer install
 ```
-3. Jalankan web server
+3. Copy .env.example dengan nama .env, dan sesuaikan setting
+4. Jalankan web server
 ```bash
 php -S localhost:8000
 ```
