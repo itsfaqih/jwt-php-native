@@ -1,6 +1,13 @@
 {
-    "require": {
-        "vlucas/phpdotenv": "^5.2",
-        "firebase/php-jwt": "^5.2"
+  "name": "itsfaqih/jwt",
+  "authors": [
+    {
+      "name": "Faqih Muntashir",
+      "email": "itsfaqih@gmail.com"
     }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "^5.2",
+    "firebase/php-jwt": "^5.2"
+  }
 }
