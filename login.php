@@ -21,10 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Ambil data json yang dikirim user
 $json = file_get_contents('php://input');
-$input_user = json_decode($json);
+$input = json_decode($json);
 
 // Jika tidak ada data email atau password
-if (!isset($input_user->email) || !isset($input_user->password)) {
+if (!isset($input->email) || !isset($input->password)) {
   http_response_code(400);
   exit();
 }
@@ -38,7 +38,7 @@ $user = [
 header('Content-Type: application/json');
 
 // Jika email atau password tidak sesuai
-if ($input_user->email !== $user['email'] || $input_user->password !== $user['password']) {
+if ($input->email !== $user['email'] || $input->password !== $user['password']) {
   echo json_encode([
     'success' => false,
     'data' => null,
@@ -48,13 +48,13 @@ if ($input_user->email !== $user['email'] || $input_user->password !== $user['pa
 }
 
 // Menghitung waktu kadaluarsa token. Dalam kasus ini akan terjadi setelah 15 menit
-$waktu_kadaluarsa = time() + (15 * 60);
+$expired_time = time() + (15 * 60);
 
 // Buat payload dan access token
 $payload = [
-  'email' => $input_user->email,
+  'email' => $input->email,
   // Di library ini wajib menambah key exp untuk mengatur masa berlaku token
-  'exp' => $waktu_kadaluarsa
+  'exp' => $expired_time
 ];
 
 // Men-generate access token
@@ -65,7 +65,7 @@ echo json_encode([
   'success' => true,
   'data' => [
     'accessToken' => $access_token,
-    'expiry' => date(DATE_ISO8601, $waktu_kadaluarsa)
+    'expiry' => date(DATE_ISO8601, $expired_time)
   ],
   'message' => 'Login berhasil!'
 ]);
